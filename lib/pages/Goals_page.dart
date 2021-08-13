@@ -25,17 +25,42 @@ class _GoalsPageState extends State<GoalsPage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
+        backgroundColor: Colors.red[50],
         appBar: AppBar(
           title: Text('Last Time'),
           centerTitle: true,
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: <Color>[Colors.red, Colors.blue])),
+          ),
         ),
-        body: ValueListenableBuilder<Box<Goals>>(
-          valueListenable: Boxes.getGoals().listenable(),
-          builder: (context, box, _) {
-            final goals = box.values.toList().cast<Goals>();
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            ValueListenableBuilder<Box<Goals>>(
+              valueListenable: Boxes.getGoals().listenable(),
+              builder: (context, box, _) {
+                final goals = box.values.toList().cast<Goals>();
 
-            return buildContent(goals);
-          },
+                return buildContent(goals);
+              },
+            ),
+            SizedBox(height: 20),
+            Center(
+              child: ElevatedButton(
+                child: Text('History'),
+                //, style: TextStyle(color: Colors.red)
+                onPressed: () {
+                  // Navigate to second route when tapped.
+                  Navigator.pushNamed(context, '/history_page');
+                },
+              ),
+            ),
+          ],
         ),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
@@ -57,15 +82,6 @@ class _GoalsPageState extends State<GoalsPage> {
         height: 200,
       ));
     } else {
-      // final netExpense = goals.fold<double>(
-      //   0,
-      //   (previousValue, goal) => goal.isExpense
-      //       ? previousValue - goal.amount
-      //       : previousValue + goal.amount,
-      // );
-      // final newExpenseString = '\$${netExpense.toStringAsFixed(2)}';
-      // final color = netExpense > 0 ? Colors.green : Colors.red;
-
       return Column(
         children: [
           Row(
@@ -106,7 +122,6 @@ class _GoalsPageState extends State<GoalsPage> {
   ) {
     final color = Colors.green;
     final date = DateFormat.yMMMd().format(goal.createdDate);
-    // final amount = '\$' + goal.amount.toStringAsFixed(2);
 
     return Card(
       color: Colors.white,
@@ -141,6 +156,7 @@ class _GoalsPageState extends State<GoalsPage> {
               onPressed: () {
                 addHistory(DateTime.now(), goal);
                 Navigator.pushNamed(context, '/history_page');
+                deleteGoal(goal);
               },
             ),
           ),

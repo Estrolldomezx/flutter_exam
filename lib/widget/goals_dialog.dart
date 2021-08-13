@@ -105,43 +105,6 @@ class _GoalDialogState extends State<GoalDialog> {
             category != null && category.isEmpty ? 'Enter a category' : null,
       );
 
-  // Widget buildDropdown() {
-  //   return DropdownButton<String>(
-  //     value: dropdownValue,
-  //     icon: const Icon(Icons.arrow_downward),
-  //     iconSize: 24,
-  //     elevation: 16,
-  //     style: const TextStyle(color: Colors.deepPurple),
-  //     underline: Container(
-  //       height: 2,
-  //       color: Colors.deepPurpleAccent,
-  //     ),
-  //     onChanged: (String? newValue) {
-  //       setState(() {
-  //         dropdownValue = newValue!;
-  //       });
-  //     },
-  //     items: <String>['One', 'Two', 'Free', 'Four']
-  //         .map<DropdownMenuItem<String>>((String value) {
-  //       return DropdownMenuItem<String>(
-  //         value: value,
-  //         child: Text(value),
-  //       );
-  //     }).toList(),
-  //   );
-  // }
-
-  // Widget buildRadioButtons() => Column(
-  //       children: [
-  //         RadioListTile<bool>(
-  //           title: Text('Categories'),
-  //           value: true,
-  //           groupValue: isChoose,
-  //           onChanged: (value) => setState(() => isChoose = value!),
-  //         ),
-  //       ],
-  //     );
-
   Widget buildCancelButton(BuildContext context) => TextButton(
         child: Text('Cancel'),
         onPressed: () => Navigator.of(context).pop(),

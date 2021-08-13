@@ -9,8 +9,17 @@ class HistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.red[50],
       appBar: AppBar(
         title: const Text('History'),
+        centerTitle: true,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: <Color>[Colors.red, Colors.blue])),
+        ),
       ),
       body: ValueListenableBuilder<Box<History>>(
         valueListenable: Boxes.getHistories().listenable(),
@@ -26,11 +35,11 @@ class HistoryPage extends StatelessWidget {
   Widget buildContent(List<History> histories) {
     if (histories.isEmpty) {
       return Center(
-        child: Text(
-          'No Histories!',
-          style: TextStyle(fontSize: 24),
-        ),
-      );
+          child: Image.network(
+        'https://image.flaticon.com/icons/png/512/2748/2748558.png',
+        width: 200,
+        height: 200,
+      ));
     } else {
       return Column(
         children: [

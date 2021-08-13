@@ -27,12 +27,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) => MaterialApp(
         debugShowCheckedModeBanner: false,
         title: title,
-        theme: ThemeData(primarySwatch: Colors.indigo),
+        theme: ThemeData(primarySwatch: Colors.red),
         home: GoalsPage(),
         initialRoute: '/',
       routes: <String, WidgetBuilder>{
-        '/history_page': (context) => HistoryPage(),
-        '/Goals_page': (context) => GoalsPage(),
+        '/pages/history_page': (context) => HistoryPage(),
+        '/pages/Goals_page': (context) => GoalsPage(),
       },
       );
 }
