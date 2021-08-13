@@ -73,7 +73,7 @@ class _GoalDialogState extends State<GoalDialog> {
               SizedBox(height: 8),
               buildCategory(),
               SizedBox(height: 8),
-              buildRadioButtons(),
+              // buildRadioButtons(),
             ],
           ),
         ),
@@ -100,11 +100,9 @@ class _GoalDialogState extends State<GoalDialog> {
           border: OutlineInputBorder(),
           hintText: 'Enter Category',
         ),
-        keyboardType: TextInputType.text,
-        validator: (category) => category != null && double.tryParse(category) == null
-            ? 'Enter a valid category'
-            : null,
-        controller: categoryController,
+        // keyboardType: TextInputType.text,
+        validator: (category) =>
+            category != null && category.isEmpty ? 'Enter a category' : null,
       );
 
   // Widget buildDropdown() {
@@ -133,16 +131,16 @@ class _GoalDialogState extends State<GoalDialog> {
   //   );
   // }
 
-  Widget buildRadioButtons() => Column(
-        children: [
-          RadioListTile<bool>(
-            title: Text('Categories'),
-            value: true,
-            groupValue: isChoose,
-            onChanged: (value) => setState(() => isChoose = value!),
-          ),
-        ],
-      );
+  // Widget buildRadioButtons() => Column(
+  //       children: [
+  //         RadioListTile<bool>(
+  //           title: Text('Categories'),
+  //           value: true,
+  //           groupValue: isChoose,
+  //           onChanged: (value) => setState(() => isChoose = value!),
+  //         ),
+  //       ],
+  //     );
 
   Widget buildCancelButton(BuildContext context) => TextButton(
         child: Text('Cancel'),

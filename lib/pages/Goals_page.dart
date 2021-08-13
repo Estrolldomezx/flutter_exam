@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:midterm_proj/boxes.dart';
 import 'package:midterm_proj/models/model.dart';
 import 'package:midterm_proj/widget/goals_dialog.dart';
+import 'package:midterm_proj/widget/search_Bar.dart';
 
 class GoalsPage extends StatefulWidget {
   @override
@@ -65,6 +66,7 @@ class _GoalsPageState extends State<GoalsPage> {
 
       return Column(
         children: [
+          buildSearchbar(),
           SizedBox(height: 24),
           Text(
             // 'Net Expense: $newExpenseString',

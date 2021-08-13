@@ -31,8 +31,9 @@ dependencies:
   # hive database
   hive: ^2.0.3
   hive_flutter: ^1.0.0
-  flutter_search_bar: ^2.1.0
   intl: ^0.17.0
+  dio: 1.0.0
+  flappy_search_bar: 1.4.1
 
 dev_dependencies:
   flutter_test:
