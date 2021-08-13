@@ -10,10 +10,4 @@ class Goals extends HiveObject {
 
   @HiveField(1)
   late DateTime createdDate;
-
-  @HiveField(2)
-  late bool isExpense = true;
-
-  @HiveField(3)
-  late double amount;
 }

@@ -52,25 +52,27 @@ class _GoalsPageState extends State<GoalsPage> {
         width: 200,
         height: 200,
       ));
-    } else {
-      final netExpense = goals.fold<double>(
-        0,
-        (previousValue, goal) => goal.isExpense
-            ? previousValue - goal.amount
-            : previousValue + goal.amount,
-      );
-      final newExpenseString = '\$${netExpense.toStringAsFixed(2)}';
-      final color = netExpense > 0 ? Colors.green : Colors.red;
+    } 
+    else {
+      // final netExpense = goals.fold<double>(
+      //   0,
+      //   (previousValue, goal) => goal.isExpense
+      //       ? previousValue - goal.amount
+      //       : previousValue + goal.amount,
+      // );
+      // final newExpenseString = '\$${netExpense.toStringAsFixed(2)}';
+      // final color = netExpense > 0 ? Colors.green : Colors.red;
 
       return Column(
         children: [
           SizedBox(height: 24),
           Text(
-            'Net Expense: $newExpenseString',
+            // 'Net Expense: $newExpenseString',
+            'You have goal to do',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 20,
-              color: color,
+              // color: color,
             ),
           ),
           SizedBox(height: 24),
@@ -94,9 +96,9 @@ class _GoalsPageState extends State<GoalsPage> {
     BuildContext context,
     Goals goal,
   ) {
-    final color = goal.isExpense ? Colors.red : Colors.green;
+    // final color = goal.isExpense ? Colors.red : Colors.green;
     final date = DateFormat.yMMMd().format(goal.createdDate);
-    final amount = '\$' + goal.amount.toStringAsFixed(2);
+    // final amount = '\$' + goal.amount.toStringAsFixed(2);
 
     return Card(
       color: Colors.white,
@@ -108,11 +110,11 @@ class _GoalsPageState extends State<GoalsPage> {
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
         ),
         subtitle: Text(date),
-        trailing: Text(
-          amount,
-          style: TextStyle(
-              color: color, fontWeight: FontWeight.bold, fontSize: 16),
-        ),
+        // trailing: Text(
+        //   category,
+        //   style: TextStyle(
+        //       color: color, fontWeight: FontWeight.bold, fontSize: 16),
+        // ),
         children: [
           buildButtons(context, goal),
         ],
@@ -124,14 +126,21 @@ class _GoalsPageState extends State<GoalsPage> {
         children: [
           Expanded(
             child: TextButton.icon(
+              label: Text('Done !'),
+              icon: Icon(Icons.done),
+              onPressed: () => deleteGoal(goal),
+            ),
+          ),
+          Expanded(
+            child: TextButton.icon(
               label: Text('Edit'),
               icon: Icon(Icons.edit),
               onPressed: () => Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => GoalDialog(
                     goal: goal,
-                    onClickedDone: (name, amount, isExpense) =>
-                        editGoal(goal, name, amount, isExpense),
+                    onClickedDone: (name, category, isExpense) =>
+                        editGoal(goal, name, category, isExpense),
                   ),
                 ),
               ),
@@ -143,16 +152,16 @@ class _GoalsPageState extends State<GoalsPage> {
               icon: Icon(Icons.delete),
               onPressed: () => deleteGoal(goal),
             ),
-          )
+          ),
         ],
       );
 
-  Future addGoal(String name, double amount, bool isExpense) async {
+  Future addGoal(String name, String category, bool isExpense) async {
     final goal = Goals()
       ..name = name
-      ..createdDate = DateTime.now()
-      ..amount = amount
-      ..isExpense = isExpense;
+      ..createdDate = DateTime.now();
+      // ..category = category;
+      // ..isExpense = isExpense;
 
     final box = Boxes.getGoals();
     box.add(goal);
@@ -167,12 +176,12 @@ class _GoalsPageState extends State<GoalsPage> {
   void editGoal(
     Goals goal,
     String name,
-    double amount,
+    String category,
     bool isExpense,
   ) {
     goal.name = name;
-    goal.amount = amount;
-    goal.isExpense = isExpense;
+    // goal.category = category;
+    // goal.isExpense = isExpense;
 
     // final box = Boxes.getTransactions();
     // box.put(transaction.key, transaction);

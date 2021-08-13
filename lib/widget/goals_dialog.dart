@@ -4,7 +4,7 @@ import 'package:midterm_proj/models/model.dart';
 
 class GoalDialog extends StatefulWidget {
   final Goals? goal; //Goal
-  final Function(String name, double amount, bool isExpense) onClickedDone;
+  final Function(String name, String category, bool isExpense) onClickedDone;
 
   const GoalDialog({
     Key? key,
@@ -19,9 +19,9 @@ class GoalDialog extends StatefulWidget {
 class _GoalDialogState extends State<GoalDialog> {
   final formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
-  final amountController = TextEditingController();
+  final categoryController = TextEditingController();
 
-  bool isExpense = true;
+  bool isChoose = true;
 
   @override
   void initState() {
@@ -31,15 +31,15 @@ class _GoalDialogState extends State<GoalDialog> {
       final goal = widget.goal!;
 
       nameController.text = goal.name;
-      amountController.text = goal.amount.toString();
-      isExpense = goal.isExpense;
+      // categoryController.text = goal.category;
+      // isExpense = goal.isExpense;
     }
   }
 
   @override
   void dispose() {
     nameController.dispose();
-    amountController.dispose();
+    // categoryController.dispose();
 
     super.dispose();
   }
@@ -71,7 +71,7 @@ class _GoalDialogState extends State<GoalDialog> {
               SizedBox(height: 8),
               buildName(),
               SizedBox(height: 8),
-              buildAmount(),
+              buildCategory(),
               SizedBox(height: 8),
               buildRadioButtons(),
             ],
@@ -95,31 +95,51 @@ class _GoalDialogState extends State<GoalDialog> {
             name != null && name.isEmpty ? 'Enter a name' : null,
       );
 
-  Widget buildAmount() => TextFormField(
+  Widget buildCategory() => TextFormField(
         decoration: InputDecoration(
           border: OutlineInputBorder(),
-          hintText: 'Enter Amount',
+          hintText: 'Enter Category',
         ),
-        keyboardType: TextInputType.number,
-        validator: (amount) => amount != null && double.tryParse(amount) == null
-            ? 'Enter a valid number'
+        keyboardType: TextInputType.text,
+        validator: (category) => category != null && double.tryParse(category) == null
+            ? 'Enter a valid category'
             : null,
-        controller: amountController,
+        controller: categoryController,
       );
+
+  // Widget buildDropdown() {
+  //   return DropdownButton<String>(
+  //     value: dropdownValue,
+  //     icon: const Icon(Icons.arrow_downward),
+  //     iconSize: 24,
+  //     elevation: 16,
+  //     style: const TextStyle(color: Colors.deepPurple),
+  //     underline: Container(
+  //       height: 2,
+  //       color: Colors.deepPurpleAccent,
+  //     ),
+  //     onChanged: (String? newValue) {
+  //       setState(() {
+  //         dropdownValue = newValue!;
+  //       });
+  //     },
+  //     items: <String>['One', 'Two', 'Free', 'Four']
+  //         .map<DropdownMenuItem<String>>((String value) {
+  //       return DropdownMenuItem<String>(
+  //         value: value,
+  //         child: Text(value),
+  //       );
+  //     }).toList(),
+  //   );
+  // }
 
   Widget buildRadioButtons() => Column(
         children: [
           RadioListTile<bool>(
-            title: Text('Expense'),
+            title: Text('Categories'),
             value: true,
-            groupValue: isExpense,
-            onChanged: (value) => setState(() => isExpense = value!),
-          ),
-          RadioListTile<bool>(
-            title: Text('Income'),
-            value: false,
-            groupValue: isExpense,
-            onChanged: (value) => setState(() => isExpense = value!),
+            groupValue: isChoose,
+            onChanged: (value) => setState(() => isChoose = value!),
           ),
         ],
       );
@@ -139,9 +159,9 @@ class _GoalDialogState extends State<GoalDialog> {
 
         if (isValid) {
           final name = nameController.text;
-          final amount = double.tryParse(amountController.text) ?? 0;
+          final category = categoryController.text;
 
-          widget.onClickedDone(name, amount, isExpense);
+          widget.onClickedDone(name, category, isChoose);
 
           Navigator.of(context).pop();
         }

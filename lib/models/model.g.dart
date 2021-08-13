@@ -18,23 +18,17 @@ class GoalsAdapter extends TypeAdapter<Goals> {
     };
     return Goals()
       ..name = fields[0] as String
-      ..createdDate = fields[1] as DateTime
-      ..isExpense = fields[2] as bool
-      ..amount = fields[3] as double;
+      ..createdDate = fields[1] as DateTime;
   }
 
   @override
   void write(BinaryWriter writer, Goals obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(2)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
-      ..write(obj.createdDate)
-      ..writeByte(2)
-      ..write(obj.isExpense)
-      ..writeByte(3)
-      ..write(obj.amount);
+      ..write(obj.createdDate);
   }
 
   @override
