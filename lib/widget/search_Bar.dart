@@ -1,40 +1,41 @@
-import 'package:flappy_search_bar/flappy_search_bar.dart';
 import 'package:flutter/material.dart';
 
-class Post {
-  final String title;
-  final String description;
+/// This is the stateful widget that the main application instantiates.
+class SearchBar extends StatefulWidget {
+  const SearchBar({Key? key}) : super(key: key);
 
-  Post(this.title, this.description);
+  @override
+  State<SearchBar> createState() => _MyStatefulWidgetState();
 }
 
-class Search_Bar extends StatefulWidget {
-  Future<List<Post>> search(String search) async {
-  await Future.delayed(Duration(seconds: 2));
-  return List.generate(search.length, (int index) {
-    return Post(
-      "Title : $search $index",
-      "Description :$search $index",
-    );
-  });
-}
+/// This is the private State class that goes with MyStatefulWidget.
+class _MyStatefulWidgetState extends State<SearchBar> {
+  String dropdownValue = 'Categories';
 
-  Widget buildSearchbar(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: SearchBar<Post>(
-            onSearch: search,
-            onItemFound: (Post post, int index) {
-              return ListTile(
-                title: Text(post.title),
-                subtitle: Text(post.description),
-              );
-            },
-          ),
-        ),
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<String>(
+      value: dropdownValue,
+      icon: const Icon(Icons.arrow_downward),
+      iconSize: 24,
+      elevation: 16,
+      style: const TextStyle(color: Colors.deepPurple),
+      underline: Container(
+        height: 2,
+        color: Colors.deepPurpleAccent,
       ),
+      onChanged: (String? newValue) {
+        setState(() {
+          dropdownValue = newValue!;
+        });
+      },
+      items: <String>['Categories','Routine', 'Examination', 'Meeting', 'Sport']
+          .map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
     );
   }
 }

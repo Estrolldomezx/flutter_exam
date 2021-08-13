@@ -4,6 +4,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:midterm_proj/boxes.dart';
 import 'package:midterm_proj/models/model.dart';
+import 'package:midterm_proj/models/model_history.dart';
 import 'package:midterm_proj/widget/goals_dialog.dart';
 import 'package:midterm_proj/widget/search_Bar.dart';
 
@@ -19,6 +20,8 @@ class _GoalsPageState extends State<GoalsPage> {
 
     super.dispose();
   }
+
+  bool order = false;
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -53,8 +56,7 @@ class _GoalsPageState extends State<GoalsPage> {
         width: 200,
         height: 200,
       ));
-    } 
-    else {
+    } else {
       // final netExpense = goals.fold<double>(
       //   0,
       //   (previousValue, goal) => goal.isExpense
@@ -66,20 +68,24 @@ class _GoalsPageState extends State<GoalsPage> {
 
       return Column(
         children: [
-          buildSearchbar(),
-          SizedBox(height: 24),
-          Text(
-            // 'Net Expense: $newExpenseString',
-            'You have goal to do',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-              // color: color,
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              SearchBar(),
+              IconButton(
+                alignment: Alignment.topRight,
+                icon: Icon(Icons.sort),
+                onPressed: () {
+                  setState(() {
+                    order = !order;
+                  });
+                },
+              ),
+            ],
           ),
-          SizedBox(height: 24),
           Expanded(
             child: ListView.builder(
+              reverse: order,
               padding: EdgeInsets.all(8),
               itemCount: goals.length,
               itemBuilder: (BuildContext context, int index) {
@@ -98,7 +104,7 @@ class _GoalsPageState extends State<GoalsPage> {
     BuildContext context,
     Goals goal,
   ) {
-    // final color = goal.isExpense ? Colors.red : Colors.green;
+    final color = Colors.green;
     final date = DateFormat.yMMMd().format(goal.createdDate);
     // final amount = '\$' + goal.amount.toStringAsFixed(2);
 
@@ -112,13 +118,15 @@ class _GoalsPageState extends State<GoalsPage> {
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
         ),
         subtitle: Text(date),
-        // trailing: Text(
-        //   category,
-        //   style: TextStyle(
-        //       color: color, fontWeight: FontWeight.bold, fontSize: 16),
-        // ),
+        trailing: Text(
+          DateFormat('dd-MM-yyyy – kk:mm').format(goal.createdDate),
+          style: TextStyle(
+              color: color, fontWeight: FontWeight.bold, fontSize: 16),
+        ),
         children: [
+          SizedBox(height: 10),
           buildButtons(context, goal),
+          SizedBox(height: 10),
         ],
       ),
     );
@@ -130,7 +138,10 @@ class _GoalsPageState extends State<GoalsPage> {
             child: TextButton.icon(
               label: Text('Done !'),
               icon: Icon(Icons.done),
-              onPressed: () => deleteGoal(goal),
+              onPressed: () {
+                addHistory(DateTime.now(), goal);
+                Navigator.pushNamed(context, '/history_page');
+              },
             ),
           ),
           Expanded(
@@ -162,17 +173,8 @@ class _GoalsPageState extends State<GoalsPage> {
     final goal = Goals()
       ..name = name
       ..createdDate = DateTime.now();
-      // ..category = category;
-      // ..isExpense = isExpense;
-
     final box = Boxes.getGoals();
     box.add(goal);
-    //box.put('mykey', transaction);
-
-    // final mybox = Boxes.getTransactions();
-    // final myTransaction = mybox.get('key');
-    // mybox.values;
-    // mybox.keys;
   }
 
   void editGoal(
@@ -182,20 +184,18 @@ class _GoalsPageState extends State<GoalsPage> {
     bool isExpense,
   ) {
     goal.name = name;
-    // goal.category = category;
-    // goal.isExpense = isExpense;
-
-    // final box = Boxes.getTransactions();
-    // box.put(transaction.key, transaction);
-
     goal.save();
   }
 
   void deleteGoal(Goals goal) {
-    // final box = Boxes.getTransactions();
-    // box.delete(transaction.key);
-
     goal.delete();
-    //setState(() => transactions.remove(transaction));
+  }
+
+  Future addHistory(DateTime createdDate, Goals goal) async {
+    final history = History()
+      ..createdDate = DateTime.now()
+      ..name = goal.name;
+    final box = Boxes.getHistories();
+    box.add(history);
   }
 }

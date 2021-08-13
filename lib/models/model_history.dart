@@ -1,9 +1,9 @@
 import 'package:hive/hive.dart';
 
-part 'model.g.dart';
+part 'model_history.g.dart';
 
-@HiveType(typeId: 0)
-class Goals extends HiveObject {
+@HiveType(typeId: 1)
+class History extends HiveObject {
   @HiveField(0)
   late String name;
 
