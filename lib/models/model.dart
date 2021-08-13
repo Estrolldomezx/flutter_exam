@@ -1,27 +1,19 @@
-class City {
+  
+import 'package:hive/hive.dart';
 
-  //--- Name Of City
-  final String name;
-  //-- image
-  final String image;
-  //--- population
-  final String population;
-   //--- country
-  final String country;
+part 'model.g.dart';
 
-  City({this.name='',this.country='',this.population='',this.image=''});
+@HiveType(typeId: 0)
+class Goals extends HiveObject {
+  @HiveField(0)
+  late String name;
 
-  static List<City> allCities()
-  {
-    // var lstOfCities = new List<City>();
-    List<City> lstOfCities = [];
+  @HiveField(1)
+  late DateTime createdDate;
 
-    lstOfCities.add(new City(name:"Delhi",country: "India",population: "19 mill",image: "delhi.png"));
-    lstOfCities.add(new City(name:"London",country: "Britain",population: "8 mill",image: "london.png"));
-    lstOfCities.add(new City(name:"Vancouver",country: "Canada",population: "2.4 mill",image: "vancouver.png"));
-    lstOfCities.add(new City(name:"New York",country: "USA",population: "8.1 mill",image: "newyork.png"));
-    lstOfCities.add(new City(name:"Paris",country: "France",population: "2.2 mill",image: "paris.png"));
-    lstOfCities.add(new City(name:"Berlin",country: "Germany",population: "3.7 mill",image: "berlin.png"));
-    return lstOfCities;
-  }
+  @HiveField(2)
+  late bool isExpense = true;
+
+  @HiveField(3)
+  late double amount;
 }
