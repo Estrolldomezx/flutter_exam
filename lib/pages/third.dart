@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:midterm_proj/model.dart';
+import 'package:midterm_proj/models/model.dart';
 
 class thirdPage extends StatelessWidget {
   final List<City> _allCities = City.allCities();

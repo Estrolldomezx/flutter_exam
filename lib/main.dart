@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:midterm_proj/second.dart';
-import 'package:midterm_proj/third.dart';
+import 'package:midterm_proj/pages/third.dart';
 
 void main() {
   runApp(MaterialApp(
