@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:hive_database_example/models/model.dart';
-import 'package:hive_database_example/widget/transaction_dialog.dart';
 import 'package:intl/intl.dart';
 import 'package:midterm_proj/boxes.dart';
 import 'package:midterm_proj/models/model.dart';
+import 'package:midterm_proj/widget/goals_dialog.dart';
 
 class GoalsPage extends StatefulWidget {
   @override
@@ -23,7 +22,7 @@ class _GoalsPageState extends State<GoalsPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: Text('Hive Expense Tracker'),
+          title: Text('Last Time'),
           centerTitle: true,
         ),
         body: ValueListenableBuilder<Box<Goals>>(
@@ -38,7 +37,7 @@ class _GoalsPageState extends State<GoalsPage> {
           child: Icon(Icons.add),
           onPressed: () => showDialog(
             context: context,
-            builder: (context) => GoalsDialog(
+            builder: (context) => GoalDialog(
               onClickedDone: addGoal,
             ),
           ),
@@ -48,11 +47,11 @@ class _GoalsPageState extends State<GoalsPage> {
   Widget buildContent(List<Goals> goals) {
     if (goals.isEmpty) {
       return Center(
-        child: Text(
-          'No expenses yet!',
-          style: TextStyle(fontSize: 24),
-        ),
-      );
+          child: Image.network(
+        'https://image.flaticon.com/icons/png/512/2748/2748558.png',
+        width: 200,
+        height: 200,
+      ));
     } else {
       final netExpense = goals.fold<double>(
         0,
@@ -129,7 +128,7 @@ class _GoalsPageState extends State<GoalsPage> {
               icon: Icon(Icons.edit),
               onPressed: () => Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => GoalsDialog(
+                  builder: (context) => GoalDialog(
                     goal: goal,
                     onClickedDone: (name, amount, isExpense) =>
                         editGoal(goal, name, amount, isExpense),
