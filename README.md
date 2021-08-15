@@ -1,6 +1,6 @@
 # midterm_proj by 6110110617
 
-A new Flutter project.
+A new Flutter project. Link Youtube => https://youtu.be/Dia9A5kQNu4
 
 ## Getting Started
 
